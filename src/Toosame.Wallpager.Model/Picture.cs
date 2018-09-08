@@ -10,6 +10,7 @@ namespace Toosame.Wallpager.Model
 
         public Picture(DataRow dataRow) : base(dataRow)
         {
+            Name = dataRow["picName"].ToString();
             Intro = dataRow["picIntro"].ToString();
 
             ChannelId = Convert.ToInt32(dataRow["picChannel"]);
@@ -22,6 +23,8 @@ namespace Toosame.Wallpager.Model
 
             Tags = new List<Tag>();
         }
+
+        public string Name { get; set; } 
 
         public string Intro { get; set; }
 

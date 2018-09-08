@@ -2,6 +2,8 @@
 
 使用React + ASP.NET Core的开源壁纸资源站点，包括168259条壁纸数据库备份文件
 
+![caption](picture/caption.png)
+
 ## 接口目录
 
 + [图片](#图片)

@@ -60,6 +60,22 @@ namespace Toosame.Wallpager.Controllers
             => _dataSourceService.Picture.GetPictureDetail(id);
 
         /// <summary>
+        /// 获取图片类型列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public IEnumerable<PictureType> Catalog()
+        {
+            if (!_cache.TryGetValue("pic_type", out List<PictureType> picTypes))
+            {
+                picTypes = (List<PictureType>)_dataSourceService.PictureType.GetAllPictureType();
+                _cache.Set("pic_type", picTypes);
+            }
+
+            return picTypes;
+        }
+
+        /// <summary>
         /// 搜索
         /// </summary>
         /// <param name="id"></param>

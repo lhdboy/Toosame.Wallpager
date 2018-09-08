@@ -91,7 +91,7 @@ SELECT TOP 1
     (SELECT TOP 1 chan.channelName FROM PictureChannel chan WHERE chan.channelId = pic.picChannel) AS ChannelName,
     (SELECT TOP 1 typ.typeName FROM PictureType typ WHERE typ.typeId = pic.picType) AS TypeName,
     (SELECT TOP 1 picSrc.picPreview FROM PictureSource picSrc WHERE picSrc.picId = pic.picId) AS picPreview
-FROM Picture pic WHERE picType = 200000 ORDER BY NEWID()");
+FROM Picture pic WHERE pic.picType = 200000 AND pic.picSize = '1920x1080' AND pic.picNum > 1 ORDER BY NEWID()");
 
             if (pictureDataTable.Rows.Count <= 0)
                 return null;
