@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Image, Grid, Col, Row, Carousel, Breadcrumb } from 'react-bootstrap';
+import { Grid, Col, Row, Carousel, Breadcrumb } from 'react-bootstrap';
 import { TagButton } from '../../components/tag-button/index';
 
 export class Home extends Component {
@@ -34,7 +34,7 @@ export class Home extends Component {
                     todayPictureIntro: json.intro,
                     todayPictureTypeName: json.typeName,
                     todayPictureChannelName: json.channelName,
-                    todayPictureTags: json.tags,
+                    todayPictureTags: json.tags
                 });
             })
             .catch(e => {

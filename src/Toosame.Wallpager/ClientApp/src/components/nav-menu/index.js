@@ -1,7 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Glyphicon, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Overlay, Popover } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Overlay, Popover } from 'react-bootstrap';
 import './index.css';
 
 export class NavMenu extends Component {
@@ -17,7 +15,7 @@ export class NavMenu extends Component {
             channelDom: null,
             searchText: '',
             overlayShow: false,
-            overlayTarget: null,
+            overlayTarget: null
         };
     }
 
@@ -30,7 +28,7 @@ export class NavMenu extends Component {
         fetch(`/api/picture/catalog`)
             .then(res => res.json())
             .then(json => {
-                if (json != null && json.length > 0) {
+                if (json !== null && json.length > 0) {
                     this.setState({
                         catalogDom: json.map((v, i, a) => <NavItem key={v.typeId} href="#">{v.typeName}</NavItem>)
                     });
@@ -44,7 +42,7 @@ export class NavMenu extends Component {
         fetch(`/api/channel/get`)
             .then(res => res.json())
             .then(json => {
-                if (json != null && json.length > 0) {
+                if (json !== null && json.length > 0) {
                     this.setState({ channelDom: json.map((v, i, a) => <MenuItem key={v.id}>{v.name}</MenuItem>) });
                 }
             }).catch(e => {
@@ -58,7 +56,7 @@ export class NavMenu extends Component {
             return;
         }
 
-        if (this.state.searchText.trim() == '') {
+        if (this.state.searchText.trim() === '') {
             this.setState({ overlayShow: true, overlayTarget: e.target });
             return;
         }
@@ -73,7 +71,16 @@ export class NavMenu extends Component {
                     <Navbar.Brand>
                         <a href="#home">壁纸库</a>
                     </Navbar.Brand>
-                    <Navbar.Form pullLeft>
+                    <Nav pullLeft>
+                        {this.state.catalogDom}
+                        <NavDropdown title="分类" id="basic-nav-dropdown">
+                            {this.state.channelDom}
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Header>
+                <Navbar.Toggle />
+                <Navbar.Collapse>
+                    <Navbar.Form pullRight>
                         <FormGroup>
                             <FormControl
                                 type="text"
@@ -96,15 +103,6 @@ export class NavMenu extends Component {
                             </Overlay>
                         </FormGroup>
                     </Navbar.Form>
-                </Navbar.Header>
-                <Navbar.Toggle />
-                <Navbar.Collapse>
-                    <Nav pullRight>
-                        {this.state.catalogDom}
-                        <NavDropdown title="分类" id="basic-nav-dropdown">
-                            {this.state.channelDom}
-                        </NavDropdown>
-                    </Nav>
                 </Navbar.Collapse>
             </Navbar>
         );
