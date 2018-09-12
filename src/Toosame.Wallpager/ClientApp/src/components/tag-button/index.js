@@ -18,7 +18,7 @@ export class TagButton extends Component {
     render() {
         return (
             <ButtonToolbar>
-                {this.props.tags.map((v, i, a) => <Button bsStyle={this.getStyleByRandom()}>{v.tagName}</Button>)}
+                {this.props.tags.map((v, i, a) => <Button style={{ marginTop: 5 }} bsStyle={this.getStyleByRandom()}>{v.tagName}</Button>)}
             </ButtonToolbar>
         );
     }

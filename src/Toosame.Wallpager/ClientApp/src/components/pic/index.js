@@ -1,20 +1,16 @@
 ﻿import React, { Component } from 'react';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Image, } from 'react-bootstrap';
 
-export class TagButton extends Component {
-    displayName = TagButton.name
+export class Picture extends Component {
+    displayName = Picture.name
 
     render() {
         return (
-            <ListGroup>
-                <ListGroupItem header="Heading 1">Some body text</ListGroupItem>
-                <ListGroupItem header="Heading 2" href="#">
-                    Linked item
-                </ListGroupItem>
-                <ListGroupItem header="Heading 3" bsStyle="danger">
-                    Danger styling
-                </ListGroupItem>
-            </ListGroup>
+            <div>
+                <Image rounded style={{ maxWidth: '300px', maxHeight: '300px' }} src={this.props.data.picPreview} />
+                <h4>{this.props.data.picName}</h4>
+                <p>{this.props.data.picNum}张 · <span style={{ color: '#7d7d7d' }}>{this.props.data.picSize}</span></p>
+            </div>
         );
     }
 }

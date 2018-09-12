@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Grid, Col, Row, Carousel, Breadcrumb } from 'react-bootstrap';
+import { Grid, Col, Row, Carousel, Breadcrumb, Button, Glyphicon } from 'react-bootstrap';
 import { TagButton } from '../../components/tag-button/index';
+import { PictureGroup } from '../../components/pic-list/index';
 
 export class Home extends Component {
     displayName = Home.name
@@ -8,6 +9,8 @@ export class Home extends Component {
     constructor() {
         super();
         this.getTodayPicture = this.getTodayPicture.bind(this);
+        this.getRecommend = this.getRecommend.bind(this);
+        this.getTags = this.getTags.bind(this);
         this.state = {
             todayPictureSrc: [],
             todayPictureName: null,
@@ -16,11 +19,15 @@ export class Home extends Component {
             todayPictureTypeName: null,
             todayPictureChannelName: null,
             todayPictureTags: [],
+            randomPictures: [],
+            randomTags: [],
         };
     }
 
     componentDidMount() {
         this.getTodayPicture();
+        this.getRecommend();
+        this.getTags();
     }
 
     getTodayPicture() {
@@ -29,7 +36,7 @@ export class Home extends Component {
             .then(json => {
                 this.setState({
                     todayPictureSrc: json.images,
-                    todayPictureName: json.name,
+                    todayPictureName: json.picName,
                     todayPictureNum: json.images.length,
                     todayPictureIntro: json.intro,
                     todayPictureTypeName: json.typeName,
@@ -42,9 +49,36 @@ export class Home extends Component {
             });
     }
 
+    getRecommend() {
+        fetch(`/api/picture/recommend?count=24`)
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    randomPictures: json,
+                });
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
+    getTags() {
+        fetch(`/api/tag/get?count=24`)
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    randomTags: json,
+                });
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
     render() {
         return (
             <Grid>
+                <h2>今日推荐</h2>
                 <Row>
                     <Col md={8}>
                         <Carousel>
@@ -64,6 +98,13 @@ export class Home extends Component {
                         <TagButton tags={this.state.todayPictureTags} />
                     </Col>
                 </Row>
+                <h2 style={{ marginTop: 38 }}>热门标签</h2>
+                <TagButton tags={this.state.randomTags} />
+                <h2 style={{ marginTop: 38 }}>猜你喜欢</h2>
+                <PictureGroup data={this.state.randomPictures} />
+                <Button bsStyle="primary" bsSize="large" block onClick={this.getRecommend}>
+                    <Glyphicon glyph="glyphicon glyphicon-refresh" />&nbsp;&nbsp;&nbsp;&nbsp;换一组
+                </Button>
             </Grid>
         );
     }

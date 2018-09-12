@@ -66,7 +66,7 @@ export class NavMenu extends Component {
 
     render() {
         return (
-            <Navbar style={{ marginTop: 8, zIndex: 999 }}>
+            <Navbar style={{ zIndex: 999, marginTop: 8 }}>
                 <Navbar.Header>
                     <Navbar.Brand>
                         <a href="#home">壁纸库</a>
