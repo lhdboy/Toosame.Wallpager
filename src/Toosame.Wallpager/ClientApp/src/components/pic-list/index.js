@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Picture } from '../pic/index';
-import { Grid, Row, Col, Modal, Breadcrumb, Carousel } from 'react-bootstrap';
+import { Grid, Row, Col, Modal, Breadcrumb, Carousel, Button } from 'react-bootstrap';
 import { TagButton } from '../tag-button/index';
 import history from '../../history';
 
@@ -130,6 +130,9 @@ export class PictureGroup extends Component {
                         <p>{this.state.detailPicIntro}</p>
                         <TagButton tags={this.state.detailPicTags} />
                     </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.hidePictureDetail} bsStyle="success">关闭</Button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
