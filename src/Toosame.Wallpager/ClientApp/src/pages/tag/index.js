@@ -1,13 +1,13 @@
-﻿import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { Grid, PageHeader, Pager, Glyphicon } from 'react-bootstrap';
 import { PictureGroup } from '../../components/pic-list/index';
 
-export class Channel extends Component {
-    displayName = Channel.name
+export class Tag extends Component {
+    displayName = Tag.name
 
     constructor() {
         super();
-        this.getChannel = this.getChannel.bind(this);
+        this.getTag = this.getTag.bind(this);
         this.reset = this.reset.bind(this);
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
@@ -20,22 +20,22 @@ export class Channel extends Component {
     }
 
     componentDidMount() {
-        this.getChannel(this.props.match.params.id);
+        this.getTag(this.props.match.params.tag);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        if (nextProps.match.params.id !== this.props.match.params.id && !this.state.isFirst) {
-            this.reset(nextProps.match.params.id);
+        if (nextProps.match.params.tag !== this.props.match.params.tag && !this.state.isFirst) {
+            this.reset(nextProps.match.params.tag);
             return true;
         }
     }
 
-    getChannel(id) {
-        if (id === undefined) {
-            id = this.props.match.params.id;
+    getTag(tag) {
+        if (tag === undefined) {
+            tag = this.props.match.params.tag;
         }
 
-        fetch(`/api/channel/${id}?index=${this.state.pageIndex}&size=${this.state.pageSize}`)
+        fetch(`/api/tag/${tag}?index=${this.state.pageIndex}&size=${this.state.pageSize}`)
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -51,28 +51,30 @@ export class Channel extends Component {
     next() {
         this.setState({
             pageIndex: this.state.pageIndex += 1,
-        }, () => this.getChannel());
+        }, () => this.getTag());
     }
 
     previous() {
         this.setState({
             pageIndex: this.state.pageIndex -= 1,
-        }, () => this.getChannel());
+        }, () => this.getTag());
     }
 
-    reset(id) {
+    reset(tag) {
         this.setState({
             pageIndex: 1,
             pageSize: 24,
             data: [],
-        }, () => this.getChannel(id));
+        }, () => this.getTag(tag));
     }
 
     render() {
+        console.log(this.props.location.state);
+
         return (
             <Grid>
                 <PageHeader>
-                    {this.props.location.state.name}&nbsp;&nbsp;<small>分类的图片</small>
+                    {this.props.location.state.name}&nbsp;&nbsp;<small>标签的图片</small>
                 </PageHeader>
                 {this.state.data.length > 0
                     ? <PictureGroup data={this.state.data} />

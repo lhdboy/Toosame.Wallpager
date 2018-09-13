@@ -1,13 +1,13 @@
-﻿import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { Grid, PageHeader, Pager, Glyphicon } from 'react-bootstrap';
 import { PictureGroup } from '../../components/pic-list/index';
 
-export class Channel extends Component {
-    displayName = Channel.name
+export class Search extends Component {
+    displayName = Search.name
 
     constructor() {
         super();
-        this.getChannel = this.getChannel.bind(this);
+        this.search = this.search.bind(this);
         this.reset = this.reset.bind(this);
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
@@ -20,22 +20,22 @@ export class Channel extends Component {
     }
 
     componentDidMount() {
-        this.getChannel(this.props.match.params.id);
+        this.search(this.props.location.state.keyword);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        if (nextProps.match.params.id !== this.props.match.params.id && !this.state.isFirst) {
-            this.reset(nextProps.match.params.id);
+        if (nextProps.location.state.keyword !== this.props.location.state.keyword && !this.state.isFirst) {
+            this.reset(nextProps.location.state.keyword);
             return true;
         }
     }
 
-    getChannel(id) {
-        if (id === undefined) {
-            id = this.props.match.params.id;
+    search(keyword) {
+        if (keyword === undefined) {
+            keyword = this.props.location.state.keyword;
         }
 
-        fetch(`/api/channel/${id}?index=${this.state.pageIndex}&size=${this.state.pageSize}`)
+        fetch(`/api/picture/search?keyword=${encodeURI(keyword)}&index=${this.state.pageIndex}&size=${this.state.pageSize}`)
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -51,34 +51,34 @@ export class Channel extends Component {
     next() {
         this.setState({
             pageIndex: this.state.pageIndex += 1,
-        }, () => this.getChannel());
+        }, () => this.search());
     }
 
     previous() {
         this.setState({
             pageIndex: this.state.pageIndex -= 1,
-        }, () => this.getChannel());
+        }, () => this.search());
     }
 
-    reset(id) {
+    reset(keyword) {
         this.setState({
             pageIndex: 1,
             pageSize: 24,
             data: [],
-        }, () => this.getChannel(id));
+        }, () => this.search(keyword));
     }
 
     render() {
         return (
             <Grid>
                 <PageHeader>
-                    {this.props.location.state.name}&nbsp;&nbsp;<small>分类的图片</small>
+                    {this.props.location.state.keyword}&nbsp;&nbsp;<small>的搜索结果</small>
                 </PageHeader>
                 {this.state.data.length > 0
                     ? <PictureGroup data={this.state.data} />
-                    : <div style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}>
-                        <h2><Glyphicon glyph="glyphicon glyphicon-inbox" />&nbsp;&nbsp;&nbsp;&nbsp;暂无数据</h2>
-                    </div>
+                    : <div style={{ textAlign: 'center', paddingTop: 25, paddingBottom: 25 }}>
+                        <h2><Glyphicon glyph="glyphicon glyphicon-inbox" />&nbsp;&nbsp;&nbsp;&nbsp;没有搜索到任何结果</h2>
+                      </div>
                 }
                 <Pager>
                     <Pager.Item previous disabled={this.state.pageIndex <= 1} onClick={this.previous}>上一页</Pager.Item>

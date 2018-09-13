@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl, Overlay, Popover } from 'react-bootstrap';
 import './index.css';
+import history from '../../history';
 
 export class NavMenu extends Component {
     displayName = NavMenu.name
@@ -30,7 +31,18 @@ export class NavMenu extends Component {
             .then(json => {
                 if (json !== null && json.length > 0) {
                     this.setState({
-                        catalogDom: json.map((v, i, a) => <NavItem key={v.typeId} href="#">{v.typeName}</NavItem>)
+                        catalogDom: json.map((v, i, a) =>
+                            <NavItem
+                                key={v.typeId}
+                                onClick={() => history.push({
+                                    pathname: `/catalog`,
+                                    state: {
+                                        name: v.typeName
+                                    },
+                                })}
+                            >
+                                {v.typeName}
+                            </NavItem>)
                     });
                 }
             }).catch(e => {
@@ -43,7 +55,20 @@ export class NavMenu extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json !== null && json.length > 0) {
-                    this.setState({ channelDom: json.map((v, i, a) => <MenuItem key={v.id}>{v.name}</MenuItem>) });
+                    this.setState({
+                        channelDom: json.map((v, i, a) =>
+                            <MenuItem
+                                key={v.id}
+                                onClick={() => history.push({
+                                    pathname: `/channel/${v.id}`,
+                                    state: {
+                                        name: v.name,
+                                    },
+                                })}
+                            >
+                                {v.name}
+                            </MenuItem>)
+                    });
                 }
             }).catch(e => {
                 console.log(e);
@@ -61,7 +86,12 @@ export class NavMenu extends Component {
             return;
         }
 
-        //TODO: 搜索
+        history.push({
+            pathname: `/search`,
+            state: {
+                keyword: this.state.searchText
+            },
+        });
     }
 
     render() {
@@ -69,7 +99,7 @@ export class NavMenu extends Component {
             <Navbar style={{ zIndex: 999, marginTop: 8 }}>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#home">壁纸库</a>
+                        <a href="/">壁纸库</a>
                     </Navbar.Brand>
                     <Nav pullLeft>
                         {this.state.catalogDom}

@@ -2,12 +2,12 @@
 import { Grid, PageHeader, Pager, Glyphicon } from 'react-bootstrap';
 import { PictureGroup } from '../../components/pic-list/index';
 
-export class Channel extends Component {
-    displayName = Channel.name
+export class Catalog extends Component {
+    displayName = Catalog.name
 
     constructor() {
         super();
-        this.getChannel = this.getChannel.bind(this);
+        this.getCatalog = this.getCatalog.bind(this);
         this.reset = this.reset.bind(this);
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
@@ -20,22 +20,22 @@ export class Channel extends Component {
     }
 
     componentDidMount() {
-        this.getChannel(this.props.match.params.id);
+        this.getCatalog(this.props.location.state.name);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        if (nextProps.match.params.id !== this.props.match.params.id && !this.state.isFirst) {
-            this.reset(nextProps.match.params.id);
+        if (nextProps.location.state.name !== this.props.location.state.name && !this.state.isFirst) {
+            this.reset(nextProps.location.state.name);
             return true;
         }
     }
 
-    getChannel(id) {
-        if (id === undefined) {
-            id = this.props.match.params.id;
+    getCatalog(name) {
+        if (name === undefined) {
+            name = this.props.location.state.name;
         }
 
-        fetch(`/api/channel/${id}?index=${this.state.pageIndex}&size=${this.state.pageSize}`)
+        fetch(`/api/picture/search?keyword=${encodeURI(name)}&index=${this.state.pageIndex}&size=${this.state.pageSize}`)
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -51,28 +51,28 @@ export class Channel extends Component {
     next() {
         this.setState({
             pageIndex: this.state.pageIndex += 1,
-        }, () => this.getChannel());
+        }, () => this.getCatalog());
     }
 
     previous() {
         this.setState({
             pageIndex: this.state.pageIndex -= 1,
-        }, () => this.getChannel());
+        }, () => this.getCatalog());
     }
 
-    reset(id) {
+    reset(name) {
         this.setState({
             pageIndex: 1,
             pageSize: 24,
             data: [],
-        }, () => this.getChannel(id));
+        }, () => this.getCatalog(name));
     }
 
     render() {
         return (
             <Grid>
                 <PageHeader>
-                    {this.props.location.state.name}&nbsp;&nbsp;<small>分类的图片</small>
+                    {this.props.location.state.name}
                 </PageHeader>
                 {this.state.data.length > 0
                     ? <PictureGroup data={this.state.data} />

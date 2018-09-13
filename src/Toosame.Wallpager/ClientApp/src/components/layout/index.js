@@ -10,7 +10,7 @@ export class Layout extends Component {
       <Grid fluid style={{ paddingBottom: 25 }}>
         <Row>
           <Col sm={12}>
-            <NavMenu />
+            <NavMenu hashHistory={this.props.history}/>
           </Col>
           <Col sm={12}>
             {this.props.children}

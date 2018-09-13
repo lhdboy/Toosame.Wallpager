@@ -2,6 +2,7 @@
 import { Picture } from '../pic/index';
 import { Grid, Row, Col, Modal, Breadcrumb, Carousel } from 'react-bootstrap';
 import { TagButton } from '../tag-button/index';
+import history from '../../history';
 
 export class PictureGroup extends Component {
     displayName = PictureGroup.name
@@ -56,7 +57,7 @@ export class PictureGroup extends Component {
 
         if (dataSource !== undefined && dataSource !== null) {
             dataSource.forEach((v, i) => {
-                if (i % 3 == 0) {
+                if (i % 3 === 0) {
                     gridRowIndex++;
                     gridColIndex = 0;
 
@@ -73,17 +74,17 @@ export class PictureGroup extends Component {
         }
         return (
             <div>
-                {gridList.map(v =>
-                    <Grid>
+                {gridList.map((v, i) =>
+                    <Grid key={i}>
                         <Row>
-                            {v.map(c =>
-                                <Col md={4} style={{ cursor: 'pointer' }} onClick={() => this.getDetail(c)}>
+                            {v.map((c, k) =>
+                                <Col key={k} md={4} style={{ cursor: 'pointer' }} onClick={() => this.getDetail(c)}>
                                     <Picture data={c} />
                                 </Col>)}
                         </Row>
                     </Grid>
                 )}
-                <a href={this.state.downloadUrl} id='downloadUrl' target="_black" style={{ display: 'none' }} />
+                <a href={this.state.downloadUrl} id='downloadUrl' target="_black" style={{ display: 'none' }}></a>
                 <Modal
                     {...this.props}
                     show={this.state.detailShow}
@@ -106,8 +107,24 @@ export class PictureGroup extends Component {
                         </Carousel>
                         <p style={{ marginTop: 12, color: '#717171' }}>点击图片即可下载，如无法下载请在弹出的新标签页右键图片另存为</p>
                         <Breadcrumb style={{ marginTop: 8 }}>
-                            <Breadcrumb.Item href="#">{this.state.detailPicTypeName}</Breadcrumb.Item>
-                            <Breadcrumb.Item href="#">{this.state.detailPicChannelName}</Breadcrumb.Item>
+                            <Breadcrumb.Item
+                                onClick={() => history.push({
+                                    pathname: `/catalog`,
+                                    state: {
+                                        name: this.state.detailPicTypeName
+                                    },
+                                })}>
+                                {this.state.detailPicTypeName}
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item
+                                onClick={() => history.push({
+                                    pathname: `/channel/${this.state.detailPic.channelId}`,
+                                    state: {
+                                        name: this.state.detailPicChannelName,
+                                    },
+                                })}>
+                                {this.state.detailPicChannelName}
+                            </Breadcrumb.Item>
                         </Breadcrumb>
                         <p>{this.state.detailPicNum}张 · <span style={{ color: '#7d7d7d' }}>{this.state.detailPicSize}</span></p>
                         <p>{this.state.detailPicIntro}</p>

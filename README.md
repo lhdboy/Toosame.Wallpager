@@ -1,6 +1,8 @@
 # Toosame Wallpager
 
-使用React + ASP.NET Core的开源壁纸资源站点，包括168259条壁纸数据库备份文件
+使用React + ASP.NET Core 2.1的开源壁纸资源站点，包括168259条壁纸数据库备份文件
+
+Demo站点：[http://wallpager.toosame.com/](http://wallpager.toosame.com/)
 
 ![caption](picture/caption.png)
 
