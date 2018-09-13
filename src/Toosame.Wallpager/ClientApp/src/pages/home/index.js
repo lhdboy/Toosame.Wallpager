@@ -91,7 +91,7 @@ export class Home extends Component {
                                 <Carousel.Item key={v.preview}>
                                     <img
                                         onClick={() => this.setState({ downloadUrl: v.url }, () => document.getElementById('downloadPicUrl').click())}
-                                        style={{ width: '100%' }}
+                                        style={{ cursor: 'pointer', width: '100%' }}
                                         alt={this.state.todayPictureSize}
                                         src={v.preview} />
                                 </Carousel.Item>)}

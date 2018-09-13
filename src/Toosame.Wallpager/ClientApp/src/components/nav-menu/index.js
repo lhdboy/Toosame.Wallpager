@@ -96,21 +96,12 @@ export class NavMenu extends Component {
 
     render() {
         return (
-            <Navbar style={{ zIndex: 999, marginTop: 8 }}>
+            <Navbar style={{ zIndex: 999 }}>
                 <Navbar.Header>
                     <Navbar.Brand>
                         <a href="/">壁纸库</a>
                     </Navbar.Brand>
-                    <Nav pullLeft>
-                        {this.state.catalogDom}
-                        <NavDropdown title="分类" id="basic-nav-dropdown">
-                            {this.state.channelDom}
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Header>
-                <Navbar.Toggle />
-                <Navbar.Collapse>
-                    <Navbar.Form pullRight>
+                    <Navbar.Form pullLeft>
                         <FormGroup>
                             <FormControl
                                 type="text"
@@ -133,6 +124,15 @@ export class NavMenu extends Component {
                             </Overlay>
                         </FormGroup>
                     </Navbar.Form>
+                </Navbar.Header>
+                <Navbar.Toggle />
+                <Navbar.Collapse>
+                    <Nav pullRight>
+                        {this.state.catalogDom}
+                        <NavDropdown title="分类" id="basic-nav-dropdown">
+                            {this.state.channelDom}
+                        </NavDropdown>
+                    </Nav>
                 </Navbar.Collapse>
             </Navbar>
         );
