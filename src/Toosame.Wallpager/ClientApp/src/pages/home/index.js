@@ -57,6 +57,7 @@ export class Home extends Component {
         fetch(`/api/picture/recommend?count=24`)
             .then(res => res.json())
             .then(json => {
+                window.scroll({ top: 0 });
                 this.setState({
                     randomPictures: json,
                 });

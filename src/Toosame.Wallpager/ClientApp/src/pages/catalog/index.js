@@ -38,6 +38,7 @@ export class Catalog extends Component {
         fetch(`/api/picture/search?keyword=${encodeURI(name)}&index=${this.state.pageIndex}&size=${this.state.pageSize}`)
             .then(res => res.json())
             .then(json => {
+                window.scroll({ top: 0 });
                 this.setState({
                     data: json,
                     isFirst: false,

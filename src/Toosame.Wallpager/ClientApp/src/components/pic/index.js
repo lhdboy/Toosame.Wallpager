@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Image, } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 
 export class Picture extends Component {
     displayName = Picture.name
